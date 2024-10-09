@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card p-3 rounded">
+        <a class="d-flex align-items-center gap-2 justify-content-end m-2" href="/categories/{{selectedTool.category.id}}">
+                    {{ selectedTool.category.name }}
+                    <img src="/{{ selectedTool.category.icon }}" alt="" class="icon">
+                </a>
+
+        <img src="/uploads/{{ asset(selectedTool.mainPic) }}" alt="{{ selectedTool.mainPic }}" class="card-img-top">
+        <h2 class="card-title">{{ selectedTool.name }}</h2>
+        <div class="d-flex align-items-center gap-2">
+                <small>Propriétaire : </small>
+                {{ selectedTool.owner.firstName }}
+            </div>
+        
+        <small class="mt-3">Description : </small>
+        <div class="card-text">{{ selectedTool.description}}</div>
+    </div>
+    <div>
+        {% for borrow in selectedTool.borrows %}         
+                <p>Emprunté par {{ borrow.borrower.firstName}} du : {{ borrow.startDate|date("d-m-Y") }} au : {{ borrow.endDate|date("d-m-Y") }}</p>       
+        {% endfor %}
+    </div>
+    <div class="container border border-primary">
+        {{ form_start(formulaire) }}
+            {{ form_widget(formulaire, {'attr': {'class': 'bg-primary'}}) }}
+
+        {{ form_end(formulaire) }}
+    </div>
+{% endblock %}

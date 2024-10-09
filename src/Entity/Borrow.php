@@ -6,6 +6,8 @@ use App\Repository\BorrowRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: BorrowRepository::class)]
 class Borrow
 {
@@ -15,9 +17,11 @@ class Borrow
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThanOrEqual('today', message: 'La date doit être aujourd\'hui ou une date future.')]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThanOrEqual(propertyPath: 'startDate', message: 'La date de restitution doit être postérieure à la date d\'emprunt.')]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'borrows')]

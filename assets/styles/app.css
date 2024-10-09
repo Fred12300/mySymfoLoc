@@ -1,3 +1,18 @@
 body {
-    background-color: skyblue;
+    background-color: rgb(216, 226, 230);
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+.icon {
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.card {
+    max-width: 30em;
 }

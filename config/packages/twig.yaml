@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        global_categories: '@App\Service\GetCategories'
 
 when@test:
     twig:
         strict_variables: true
+

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container d-flex flex-wrap justify-content-center gap-2">
+        {% for tool in tools %}
+            <div class="card">
+                <a class="d-flex align-items-center gap-2 justify-content-end m-2" href="/categories/{{tool.category.id}}">
+                    {{ tool.category.name }}
+                    <img src="/{{ tool.category.icon }}" alt="" class="icon">
+                </a>
+                <img src="/uploads/{{ asset(tool.mainPic) }}" alt="{{ tool.mainPic }}" class="card-img-top">
+                <div class="card-body bg-dark text-light">
+                <h2 class="card-title">{{ tool.name }}</h2>
+                    <div class="d-flex justify-content-between m-2">
+                        <div class="d-flex flex-column">
+                            <small>Propriétaire : </small>
+                            {{ tool.owner.firstName }}
+                        </div>
+                    </div>
+                    <small>Description : </small>
+                    <div class="card-text">{{ tool.description}}</div>
+                <a href="borrow/{{ tool.id }}" class="btn btn-primary m-4 w-50">Réserver</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

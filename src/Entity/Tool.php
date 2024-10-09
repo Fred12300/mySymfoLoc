@@ -25,13 +25,13 @@ class Tool
     #[ORM\Column(length: 255)]
     private ?string $mainPic = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $pic2 = null;
 
     #[ORM\Column(length: 255)]
     private ?string $pic3 = null;
 
-    #[ORM\Column(length: 2000)]
+    #[ORM\Column(length: 2000, nullable: true)]
     private ?string $description = null;
 
     /**
