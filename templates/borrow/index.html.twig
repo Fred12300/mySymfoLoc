@@ -22,10 +22,14 @@
                 <p>Emprunté par {{ borrow.borrower.firstName}} du : {{ borrow.startDate|date("d-m-Y") }} au : {{ borrow.endDate|date("d-m-Y") }}</p>       
         {% endfor %}
     </div>
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="container border border-primary">
         {{ form_start(formulaire) }}
             {{ form_widget(formulaire, {'attr': {'class': 'bg-primary'}}) }}
-
         {{ form_end(formulaire) }}
     </div>
 {% endblock %}

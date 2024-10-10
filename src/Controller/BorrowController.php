@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-use function PHPSTORM_META\map;
-
 class BorrowController extends AbstractController
 {
     // #[Route('/borrow', name: 'app_borrow')]
@@ -27,7 +25,7 @@ class BorrowController extends AbstractController
     #[Route('/borrow/{id}', name: 'app_borrow')]
     public function details(
         ToolRepository $toolRep,
-        Tool $wich,
+        Tool $selectedTool,
         $id,
         Request $request,
         EntityManagerInterface $entityManager,
@@ -40,18 +38,48 @@ class BorrowController extends AbstractController
         $newBorrow = new Borrow;
         $form = $this->createForm(BorrowingType::class, $newBorrow);
         $form->handleRequest($request);
+
+        $a = $selectedTool->getBorrows();
         
-        dump($selectedTool->getBorrows());
+        function isDateOk($inputStart, $inputEnd, $a)
+        {
+            $out = true;
+                foreach ($a as $val) {
+                    $startBorrow = $val->getStartDate();
+                    $endBorrow = $val->getEndDate();
+                    if(($inputStart >= $startBorrow && $inputStart <= $endBorrow)||($inputEnd >= $startBorrow && $inputEnd <= $endBorrow))
+                    {
+                        $out = false;
+                        break;
+                    }
+                }
+            return $out;
+
+        }
 
         if($form->isSubmitted() && $form->isValid()){
-
-            
-
             $newBorrow = $form->getData();
-            $newBorrow->setBorrower($user);
-            $newBorrow->setToolBorrowed($wich);
-            $entityManager->persist($newBorrow);
-            $entityManager->flush();
+            $inputStart = $newBorrow->getStartDate();
+            $inputEnd = $newBorrow->getEndDate();
+
+            if (!isDateOk($inputStart, $inputEnd, $a)) {
+                $this->addFlash(
+                    'notice',
+                    'Outil déjà prêté à ces dates...'
+                );
+                return $this->redirectToRoute('app_borrow', ['id' => $id]);
+            } else {
+                $newBorrow->setBorrower($user);
+                $newBorrow->setToolBorrowed($selectedTool);
+                $entityManager->persist($newBorrow);
+                $entityManager->flush();
+                $this->addFlash(
+                    'notice',
+                    'Your changes were saved!'
+                );
+                return $this->redirectToRoute('app_borrow', ['id' => $id]);
+            }
+
         }
 
         return $this->render('borrow/index.html.twig', [

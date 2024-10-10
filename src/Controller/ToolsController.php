@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tool;
 use App\Form\ToolType;
 use App\Repository\ToolRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -65,6 +66,30 @@ class ToolsController extends AbstractController
         }
         return $this->render('tools/add.html.twig', [
             'formulaire' => $form
+        ]);
+    }
+
+    #[Route('/tools/mytools/{id}', name: 'app_tools_mine')]
+    public function owned(UserRepository $usersRep, $id): Response
+    {
+        $user = $usersRep->find($id);
+        $ownedTools = $user->getTools();
+
+        return $this->render('tools/mytools.html.twig', [
+            'users' => $user,
+            'ownedTools' => $ownedTools
+        ]);
+    }
+
+    #[Route('/tools/mytools/edit/{id}', name: 'app_mytools_edit')]
+    public function edit(ToolRepository $toolsRep, $id): Response
+    {
+        $tool = $toolsRep->find($id);
+        //$editTool = $tool->getTools();
+
+        return $this->render('tools/edit.html.twig', [
+            'tool' => $tool,
+            //'editTool' => $editTool,
         ]);
     }
 }
