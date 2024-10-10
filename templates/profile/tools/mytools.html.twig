@@ -5,7 +5,7 @@
 <h1>Mes Outils</h1>
     {% for tool in ownedTools %}
         <div>
-            <a href="/borrow/{{ tool.id }}">{{ tool.name }}</a>
+            <a href="/profile/borrow/{{ tool.id }}">{{ tool.name }}</a>
             <a href="edit/{{ tool.id }}">edit</a>
         </div>
     {% endfor %}

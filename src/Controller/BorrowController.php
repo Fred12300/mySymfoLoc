@@ -22,7 +22,7 @@ class BorrowController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/borrow/{id}', name: 'app_borrow')]
+    #[Route('/profile/borrow/{id}', name: 'app_borrow')]
     public function details(
         ToolRepository $toolRep,
         Tool $selectedTool,
@@ -82,7 +82,7 @@ class BorrowController extends AbstractController
 
         }
 
-        return $this->render('borrow/index.html.twig', [
+        return $this->render('/profile/borrow/index.html.twig', [
             'selectedTool' => $selectedTool,
             'formulaire' => $form,
         ]);

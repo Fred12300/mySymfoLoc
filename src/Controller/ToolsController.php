@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tool;
+use App\Form\EditToolType;
 use App\Form\ToolType;
 use App\Repository\ToolRepository;
 use App\Repository\UserRepository;
@@ -27,7 +28,7 @@ class ToolsController extends AbstractController
         ]);
     }
 
-    #[Route('/tools/add', name: 'app_tools_add')]
+    #[Route('/profile/tools/add', name: 'app_tools_add')]
     public function add(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -63,33 +64,40 @@ class ToolsController extends AbstractController
             $newTool->setOwner($user);
             $entityManager->persist($newTool);
             $entityManager->flush();
+            return $this->redirectToRoute('app_tools');
         }
-        return $this->render('tools/add.html.twig', [
+        return $this->render('/profile/tools/add.html.twig', [
             'formulaire' => $form
         ]);
     }
 
-    #[Route('/tools/mytools/{id}', name: 'app_tools_mine')]
+    #[Route('/profile/tools/mytools/{id}', name: 'app_tools_mine')]
     public function owned(UserRepository $usersRep, $id): Response
     {
         $user = $usersRep->find($id);
         $ownedTools = $user->getTools();
 
-        return $this->render('tools/mytools.html.twig', [
+        return $this->render('/profile/tools/mytools.html.twig', [
             'users' => $user,
             'ownedTools' => $ownedTools
         ]);
     }
 
-    #[Route('/tools/mytools/edit/{id}', name: 'app_mytools_edit')]
-    public function edit(ToolRepository $toolsRep, $id): Response
+    #[Route('/profile/tools/mytools/edit/{id}', name: 'app_mytools_edit')]
+    public function edit(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        $id,
+        ): Response
     {
-        $tool = $toolsRep->find($id);
-        //$editTool = $tool->getTools();
+        $tool = $entityManager->getRepository(Tool::class)->find($id);
+        $form = $this->createForm(EditToolType::class, $tool);
+        $form->handleRequest($request);
 
-        return $this->render('tools/edit.html.twig', [
+        return $this->render('/profile/tools/edit.html.twig', [
             'tool' => $tool,
-            //'editTool' => $editTool,
+            'editToolForm' => $form,
         ]);
     }
+
 }

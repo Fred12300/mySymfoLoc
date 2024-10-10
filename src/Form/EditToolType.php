@@ -11,22 +11,23 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ToolType extends AbstractType
+class EditToolType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('mainPic', FileType::class, [
-            ])
-            // ->add('pic2', FileType::class, ['required' => false])
-            // ->add('pic3', FileType::class, ['required' => false])
-            ->add('description')
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-            ])
-            ->add('Save', SubmitType::class)
+        ->add('name')
+        ->add('mainPic', FileType::class, [
+            'mapped' => false
+        ])
+        // ->add('pic2', FileType::class, ['required' => false])
+        // ->add('pic3', FileType::class, ['required' => false])
+        ->add('description')
+        ->add('category', EntityType::class, [
+            'class' => Category::class,
+            'choice_label' => 'name',
+        ])
+        ->add('Save', SubmitType::class)
         ;
     }
 

@@ -35,17 +35,46 @@
             <a href="/admin" class="btn btn-danger">Admin</a>            
           </li>
         {% elseif app.user %}
-          <li class="nav-item">
-            <a href="/tools/add" class="btn btn-primary">Ajouter un outil + </a>            
-          </li>
-          <li class="nav-item">
-            <a href="/tools/mytools/{{app.user.id}}" class="nav-link">Gérer mes outils</a>            
-          </li>
-        {% endif %}
-        {% if app.user %}
-          <li class="nav-item">
-            <a href="/logout" class="btn btn-warning m-2">Se déconnecter</a>
-          </li>
+        <div class="dropdown">
+          <a class="dropdown-toggle nav-link" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mon Compte
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="dropdown-item">
+              <a href="/profile/tools/add" class="btn btn-primary">Ajouter un outil + </a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Gérer mes outils</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Mes prêts</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Mes emprunts</a>
+            </li>
+            <hr>
+            <li class="dropdown-item btn btn-primary">
+              <a href="/profile/profile" class="btn btn-primary m-2">Mon profil</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/logout" class="btn btn-warning m-2">Se déconnecter</a>
+            </li>
+          </div>
+        </div>
+          {# <li class="nav-item dropdown">
+            <li class="nav-item">
+              <a href="/profile/tools/add" class="btn btn-primary">Ajouter un outil + </a>
+            </li>
+            <li class="nav-item">
+              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Gérer mes outils</a>
+            </li>
+            <li class="nav-item">
+              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Gérer mes outils</a>
+            </li>
+            <li class="nav-item">
+              <a href="/logout" class="btn btn-warning m-2">Se déconnecter</a>
+            </li>
+          </li> #}
         {% else %}
           <li class="nav-item">
             <a href="/login" class="btn btn-primary m-2">Se Connecter</a>
