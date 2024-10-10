@@ -94,6 +94,13 @@ class ToolsController extends AbstractController
         $form = $this->createForm(EditToolType::class, $tool);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tool = $form->getData();
+            $entityManager->persist($tool);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_tools');
+        }
+
         return $this->render('/profile/tools/edit.html.twig', [
             'tool' => $tool,
             'editToolForm' => $form,

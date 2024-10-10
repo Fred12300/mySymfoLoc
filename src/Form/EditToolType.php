@@ -18,7 +18,8 @@ class EditToolType extends AbstractType
         $builder
         ->add('name')
         ->add('mainPic', FileType::class, [
-            'mapped' => false
+            'mapped' => false,
+            'required' => false
         ])
         // ->add('pic2', FileType::class, ['required' => false])
         // ->add('pic3', FileType::class, ['required' => false])
