@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tool;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @extends ServiceEntityRepository<Tool>
@@ -16,6 +17,14 @@ class ToolRepository extends ServiceEntityRepository
         parent::__construct($registry, Tool::class);
     }
 
+    public function findLastEntries(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.id', 'DESC') // Remplacez 'id' par le champ utilisé pour trier les entrées
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Tool[] Returns an array of Tool objects

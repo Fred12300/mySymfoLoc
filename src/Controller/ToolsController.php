@@ -8,7 +8,9 @@ use App\Form\ToolType;
 use App\Repository\ToolRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Traits\RedisProxy;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,8 +76,16 @@ class ToolsController extends AbstractController
     #[Route('/profile/tools/mytools/{id}', name: 'app_tools_mine')]
     public function owned(UserRepository $usersRep, $id): Response
     {
+        $user = $this->getUser();
+        $userId = $user->getId();
+        if ($id != $userId) {
+            dump("Nooooooo");
+            return $this->redirect('/nono');
+        }
+        
         $user = $usersRep->find($id);
         $ownedTools = $user->getTools();
+
 
         return $this->render('/profile/tools/mytools.html.twig', [
             'users' => $user,
@@ -89,8 +99,16 @@ class ToolsController extends AbstractController
         EntityManagerInterface $entityManager,
         $id,
         ): Response
-    {
+    {   
         $tool = $entityManager->getRepository(Tool::class)->find($id);
+        $user = $this->getUser();
+        $owner = $tool->getOwner()->getId();
+        $userId = $user->getId();
+        if ($owner != $userId) {
+            dump("Nooooooo");
+            return $this->redirect('/nono');
+        }
+
         $form = $this->createForm(EditToolType::class, $tool);
         $form->handleRequest($request);
 

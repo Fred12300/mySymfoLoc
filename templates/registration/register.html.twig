@@ -7,13 +7,30 @@
 
     {{ form_errors(registrationForm) }}
 
-    <div class="d-flex felx-column">
+    <div class="d-flex flex-column container mw-75">
         {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
+            {{ form_row(registrationForm.email, {
+                attr: { class: 'form-control email-class mb-2' }
             }) }}
-            {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                attr: { class: 'form-control password-class mb-2' }
+            }) }}
+            {{ form_row(registrationForm.name, {
+                label: "Nom",
+                attr: { class: 'form-control text-class mb-2' }
+            }) }}
+            {{ form_row(registrationForm.first_name, {
+                label: "Prénom",
+                attr: { class: 'form-control text-class mb-3' }
+            }) }}
+            {{ form_row(registrationForm.agreeTerms, {
+                attr: { class: 'form-check-input agree-terms-class' }
+            }) }}
+            {{ form_row(registrationForm.submit, {
+                'label': 'Enregistrer',
+                attr: { class: 'btn btn-primary mt-3'}
+                }) }}
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

@@ -1,6 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(editUserForm) }}
-    {{ form_end(editUserForm) }}
+    <div class="container">
+        {{ form_start(editUserForm) }}
+            {{ form_row(editUserForm.email, {
+                attr: {class: 'form-control email-class'},
+                label: 'Email'
+            }) }}
+            {{ form_row(editUserForm.name, {
+                attr: {class: 'form-control'},
+                label: 'Nom'
+            }) }}
+            {{ form_row(editUserForm.firstName, {
+                attr: {class: 'form-control'},
+                label: 'Prénom'
+            }) }}
+            {{ form_row(editUserForm.submit, {
+                    'label': 'Enregistrer',
+                    attr: { class: 'btn btn-primary mt-3'}
+                    }) }}
+        {{ form_end(editUserForm) }}
+    </div>
 {% endblock %}

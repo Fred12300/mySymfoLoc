@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class BorrowController extends AbstractController
 {
@@ -21,6 +22,34 @@ class BorrowController extends AbstractController
     //         'controller_name' => 'BorrowController',
     //     ]);
     // }
+
+    #[Route('/myLoans', name: 'app_myLoans')]
+    public function loans(
+        ): Response
+    {
+        $user = $this->getUser();
+        $tools = $user->getTools();
+        $today = new \DateTime();
+
+        return $this->render('/profile/borrow/myLoans.html.twig', [
+            'user' => $user,
+            'tools' => $tools,
+            'today' => $today,
+        ]);
+    }
+
+    #[Route('/myBorrows', name: 'app_myBorrows')]
+    public function borrows(
+        ): Response
+    {
+        $user = $this->getUser();
+        $today = new \DateTime();
+
+        return $this->render('/profile/borrow/myBorrows.html.twig', [
+            'user' => $user,
+            'today' => $today,
+        ]);
+    }
 
     #[Route('/profile/borrow/{id}', name: 'app_borrow')]
     public function details(
@@ -34,7 +63,7 @@ class BorrowController extends AbstractController
         $selectedTool = $toolRep->find($id);
 
         $user = $this->getUser();
-        
+
         $newBorrow = new Borrow;
         $form = $this->createForm(BorrowingType::class, $newBorrow);
         $form->handleRequest($request);
@@ -87,4 +116,7 @@ class BorrowController extends AbstractController
             'formulaire' => $form,
         ]);
     }
+
+
+
 }

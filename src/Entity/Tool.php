@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ToolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ToolRepository::class)]
+#[ApiResource(normalizationContext: ['groups' => ['tool']])]
 class Tool
 {
     #[ORM\Id]
@@ -15,11 +19,15 @@ class Tool
     #[ORM\Column]
     private ?int $id = null;
 
+
+    
     #[ORM\Column(length: 100)]
+    #[Groups('tool')]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'tools')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('tool')]
     private ?Category $category = null;
 
     #[ORM\Column(length: 255)]
@@ -32,6 +40,7 @@ class Tool
     private ?string $pic3 = null;
 
     #[ORM\Column(length: 2000, nullable: true)]
+    #[Groups('tool')]
     private ?string $description = null;
 
     /**
@@ -133,6 +142,38 @@ class Tool
     {
         return $this->borrows;
     }
+
+    public function getPastBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->lt('endDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
+    public function getActualBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->lte('startDate', $now))
+        ->andWhere(Criteria::expr()->gte('endDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
+    public function getFuturBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->gt('startDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
 
     public function addBorrow(Borrow $borrow): static
     {

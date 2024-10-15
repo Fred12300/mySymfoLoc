@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -180,6 +181,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->borrows;
     }
+
+    public function getPastBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->lt('endDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
+    public function getActualBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->lte('startDate', $now))
+        ->andWhere(Criteria::expr()->gte('endDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
+    public function getFuturBorrows(): Collection
+    {
+    $now = new \DateTime();
+
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->gt('startDate', $now));
+
+    return $this->borrows->matching($criteria);
+    }
+
+
 
     public function addBorrow(Borrow $borrow): static
     {

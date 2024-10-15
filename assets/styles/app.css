@@ -13,6 +13,11 @@ a {
     height: 1.8em;
 }
 
+.miniIcon {
+    width: 1em;
+    height: 1em;
+}
+
 .card {
     max-width: 30em;
 }

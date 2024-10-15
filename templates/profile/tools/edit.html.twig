@@ -2,8 +2,31 @@
 
 {% block body %}
 
-<h1>Modifier</h1>
-    {{ tool.name }}
-    {{ form_start(editToolForm) }}
-    {{ form_end(editToolForm) }}
+<div class="container">
+    <h1>Modifier</h1>
+        <h3>{{ tool.name }}</h3>
+        {{ form_start(editToolForm) }}
+            {{ form_row(editToolForm.name, {
+                label: "Nom de l'outil",
+                attr: { class: "form-control"
+                }
+            }) }}
+            {{ form_row(editToolForm.description, {
+                label: "Description",
+                attr: { class: "form-control"
+                }
+            }) }}
+            {{ form_row(editToolForm.mainPic, {
+                label: "Image",
+                attr: { class: "form-control"
+                }
+            }) }}
+            {{ form_row(editToolForm.category, {
+                label: "Catégorie",
+                attr: { class: "form-control"
+                }
+            }) }}
+    
+        {{ form_end(editToolForm) }}
+</div>
 {% endblock %}

@@ -15,14 +15,18 @@ class BorrowingType extends AbstractType
         $builder
             ->add('startDate', null, [
                 'widget' => 'single_text',
-                'label' => 'Date d\'emprunt '
+                'label' => 'du',
+                'attr' => ['class'=>'m-2']
             ])
             ->add('endDate', null, [
                 'widget' => 'single_text',
-                'label' => 'Date de restitution '
+                'label' => 'au',
+                'attr' => ['class'=>'m-2']
             ])
 
-            ->add('Enregistrer', SubmitType::class)
+            ->add('Enregistrer', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-light w-100']
+            ])
         ;
     }
 

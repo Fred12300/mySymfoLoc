@@ -18,7 +18,7 @@ class EditUserType extends AbstractType
             ->add('email')
             ->add('name')
             ->add('firstName')
-            ->add('Enregistrer', SubmitType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 

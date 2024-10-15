@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Mes prêts</h1>
+            {% for tool in tools %}
+                <div class="card p-2 m-2 shadow">
+                    <h3>{{ tool.name }}</h3>
+                    {% if tool.borrows is not empty%}
+                            <div class="mt-2 container border">
+                                <h4 class="text-primary">En cours</h4>
+                                {% if tool.getActualBorrows is not empty %}
+                                    {% for actual in tool.getActualBorrows %}
+                                        <h5>Emprunté par: {{ actual.getBorrower().name }} </h5>
+                                        <div>
+                                            Du {{ actual.startDate|date("d/m/Y") }}
+                                            au {{ actual.endDate|date("d/m/Y") }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Pas de prêt en cours</p>
+                                {% endif %}
+                            </div>
+                            <div class="mt-2 container border">
+                                <h4 class="text-primary">A venir</h4>
+                                {% if tool.getFuturBorrows is not empty %}
+                                    {% for futur in tool.getFuturBorrows %}
+                                        <h5>Emprunté par: {{ futur.getBorrower().name }} </h5>
+                                        <div>
+                                            Du {{ futur.startDate|date("d/m/Y") }}
+                                            au {{ futur.endDate|date("d/m/Y") }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Pas de prêt à venir</p>
+                                {% endif %}
+                            </div>
+                            <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle btn-sm mt-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Prêts passés
+                            </button>
+                            <ul class="dropdown-menu">
+                            {% if tool.getPastBorrows is not empty %}
+                                    {% for past in tool.getPastBorrows %}
+                                        <h6>Emprunté par: {{ past.getBorrower().name }} </h6>
+                                        <div>
+                                            Du {{ past.startDate|date("d/m/Y") }}
+                                            au {{ past.endDate|date("d/m/Y") }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Pas de prêt passé</p>
+                                {% endif %}
+                            </ul>
+                            </div>
+                    {% else %}
+                        <p>pas de réservation actuellement</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+    </div>
+{% endblock %}

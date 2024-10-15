@@ -26,13 +26,19 @@
           </a>
           <ul class="dropdown-menu">
             {% for category in global_categories.getAllCategories %}
-                <li><a class="dropdown-item" href="/categories/{{category.id}}">{{ category.name }}</a></li>
+                <li class="d-flex alig-items-center">
+                  <a class="dropdown-item" href="/categories/{{category.id}}">{{ category.name }}</a>
+                  <img src="/{{ category.icon}}" alt="{{ category.icon}}" class="miniIcon m-2">
+                </li>
             {% endfor %}
           </ul>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
           <li class="nav-item">
             <a href="/admin" class="btn btn-danger">Admin</a>            
+          </li>
+          <li class="nav-item">
+            <a href="/logout" class="btn btn-warning m-2">Se déconnecter</a>
           </li>
         {% elseif app.user %}
         <div class="dropdown">
@@ -47,10 +53,10 @@
               <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Gérer mes outils</a>
             </li>
             <li class="dropdown-item">
-              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Mes prêts</a>
+              <a href="/myLoans" class="nav-link">Mes prêts</a>
             </li>
             <li class="dropdown-item">
-              <a href="/profile/tools/mytools/{{app.user.id}}" class="nav-link">Mes emprunts</a>
+              <a href="/myBorrows" class="nav-link">Mes emprunts</a>
             </li>
             <hr>
             <li class="dropdown-item btn btn-primary">
@@ -82,12 +88,16 @@
           <li class="nav-item">
             <a href="/register" class="btn btn-primary m-2">Créer un Compte</a>
           </li>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Se connecter
+            </button>
+            <ul class="dropdown-menu">
+              {% include "/security/login.html.twig" %}
+            </ul>
+          </div>
         {% endif %}
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
