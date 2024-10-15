@@ -11,7 +11,8 @@
                                 <h4 class="text-primary">En cours</h4>
                                 {% if tool.getActualBorrows is not empty %}
                                     {% for actual in tool.getActualBorrows %}
-                                        <h5>Emprunté par: {{ actual.getBorrower().name }} </h5>
+                                        <h5>{{ actual.toolBorrowed.name }}</h5>
+                                        <h6>Emprunté par: {{ actual.getBorrower().name }} </h6>
                                         <div>
                                             Du {{ actual.startDate|date("d/m/Y") }}
                                             au {{ actual.endDate|date("d/m/Y") }}
@@ -25,7 +26,8 @@
                                 <h4 class="text-primary">A venir</h4>
                                 {% if tool.getFuturBorrows is not empty %}
                                     {% for futur in tool.getFuturBorrows %}
-                                        <h5>Emprunté par: {{ futur.getBorrower().name }} </h5>
+                                        <h5>{{ futur.toolBorrowed.name }}</h5>
+                                        <h6>Emprunté par: {{ futur.getBorrower().name }} </h6>
                                         <div>
                                             Du {{ futur.startDate|date("d/m/Y") }}
                                             au {{ futur.endDate|date("d/m/Y") }}
@@ -42,7 +44,8 @@
                             <ul class="dropdown-menu">
                             {% if tool.getPastBorrows is not empty %}
                                     {% for past in tool.getPastBorrows %}
-                                        <h6>Emprunté par: {{ past.getBorrower().name }} </h6>
+                                        <h6>{{ past.toolBorrowed.name }}</h6>
+                                        <h7>Emprunté par: {{ past.getBorrower().name }} </h7>
                                         <div>
                                             Du {{ past.startDate|date("d/m/Y") }}
                                             au {{ past.endDate|date("d/m/Y") }}

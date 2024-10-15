@@ -2,6 +2,9 @@
 
 {% block body %}
     <div class="container">
+        <h5>Vous avez actuellement : {{ user.totalPoints}} points</h5>
+
+
         {{ form_start(editUserForm) }}
             {{ form_row(editUserForm.email, {
                 attr: {class: 'form-control email-class'},

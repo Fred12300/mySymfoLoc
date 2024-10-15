@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="card p-3 rounded">
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="card p-3 rounded container">
         <a class="d-flex align-items-center gap-2 justify-content-end m-2" href="/categories/{{selectedTool.category.id}}">
                     {{ selectedTool.category.name }}
                     <img src="/{{ selectedTool.category.icon }}" alt="" class="icon">
@@ -14,11 +19,7 @@
                         <small>Description : </small>
                         <div class="card-text">{{ selectedTool.description}}</div>
                     </div>
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
+    
     <div class="container bg-primary rounded p-3 text-light">
         <h3>Emprunter</h3>
         {{ form_start(formulaire) }}

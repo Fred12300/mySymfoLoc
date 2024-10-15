@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Borrow;
 use App\Entity\Tool;
+use App\Entity\User;
 use App\Form\BorrowingType;
 use App\Repository\ToolRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,6 +64,10 @@ class BorrowController extends AbstractController
         $selectedTool = $toolRep->find($id);
 
         $user = $this->getUser();
+        $ownerId = $selectedTool->getOwner()->getId();
+        $owner = $entityManager->getRepository(User::class)->find($ownerId);
+        $ownerPoints = $owner->getTotalPoints();
+        dump($ownerPoints);
 
         $newBorrow = new Borrow;
         $form = $this->createForm(BorrowingType::class, $newBorrow);
@@ -98,13 +103,19 @@ class BorrowController extends AbstractController
                 );
                 return $this->redirectToRoute('app_borrow', ['id' => $id]);
             } else {
+                $owner->setTotalPoints($ownerPoints + $selectedTool->getCategory()->getPoints());
+                dump($owner->getTotalPoints());
+
                 $newBorrow->setBorrower($user);
                 $newBorrow->setToolBorrowed($selectedTool);
+                
                 $entityManager->persist($newBorrow);
+                $entityManager->persist($owner);
                 $entityManager->flush();
+
                 $this->addFlash(
                     'notice',
-                    'Your changes were saved!'
+                    'Réservation enregistrée'
                 );
                 return $this->redirectToRoute('app_borrow', ['id' => $id]);
             }

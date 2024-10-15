@@ -1,23 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<img src="back.jpg" alt="back.jpg" class="img-fluid">
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        {% set first = true %}
-        {% for last in lastTools %}     
-        <div class="carousel-item {% if first %}active{% endif %}">
-        <img src="/uploads/{{ last.mainPic }}" class="d-block w-100" alt="...">
+{# <img src="back.jpg" alt="back.jpg" class="img-fluid"> #}
+
+<div class="back">
+    {% if lastTools %}
+        <h2 class="text-light fw-bold" >Derniers outils ajoutés :</h2>
+        <div class="container">
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% set first = true %}
+                    {% for last in lastTools %}
+                    <div class="carousel-item {% if first == true %}active{% endif %}">
+                        <a href="/profile/borrow/{{ last.id }}" class="d-flex flex-column align-items-center">
+                            <img src="/uploads/{{ last.mainPic }}" class="d-block carousel-img" alt="...">
+                            <h3 class="fw-bolder text-light">{{ last.name }}</h3>
+                        </a>
+                    </div>
+                    {% set first = false %}
+                    {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
         </div>
-        {% set first = false %}
-        {% endfor %}
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only bg-secondary">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only bg-secondary">Next</span>
-    </a>
+    {% endif %}
 </div>
 {% endblock %}

@@ -21,3 +21,16 @@ a {
 .card {
     max-width: 30em;
 }
+
+
+.carousel-img {
+    width: 60vw;
+    height: 60vh;
+    object-fit: contain;
+    margin: auto;
+}
+
+.back {
+    background-image: url(/back.jpg);
+    background-size: 100%;
+}
